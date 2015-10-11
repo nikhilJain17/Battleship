@@ -1,4 +1,4 @@
-// Creates the main gui
+// Creates a gui to enter name
 // And thats about it
 
 import java.awt.*;

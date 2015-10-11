@@ -1,22 +1,43 @@
 // main game gui
 // (rhyming accidentally)
+import java.awt.*;
 import javax.swing.*;
 
-public class YourGrid extends JPanel {
+public class YourGrid extends JFrame {
 
-	JFrame mainFrame;
-	JButton[] buttonArray;
+	JButton[] shipArray;
+	GridLayout battleGrid; // layout for battleFrame
 	
+	JPanel battlePanel; // frame to hold battleships
 	
 	YourGrid() {
 		
-		mainFrame = new JFrame();
-		mainFrame.setVisible(true);
-		mainFrame.setBounds(10, 10, 1000, 750);
-				
+
+		battleGrid = new GridLayout(10, 10);
+		
+		battlePanel = new JPanel();
+		battlePanel.setBounds(10, 20, 666, 666);
+		battlePanel.setLayout(battleGrid);
+		battlePanel.setVisible(true);
+		
+		shipArray = new JButton[100];
+		
+		for (int i = 0; i < shipArray.length; i++) {
+			shipArray[i] = new JButton("X");
+			battlePanel.add(shipArray[i]);
+		}
 		
 		
-		this.add(mainFrame);
+		this.setTitle("Battleship!");
+//		this.setBackground(Color.BLUE);
+		this.setVisible(true);
+		this.setBounds(10, 10, 1000, 750);
+		
+		this.add(battlePanel);		
+		this.setVisible(true);
+		
+		
+//		this.add();
 	}
 	
 	

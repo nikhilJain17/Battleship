@@ -28,7 +28,8 @@ class Main {
 		
 		
 		// create and show gui
-		LaunchGameGui gui = new LaunchGameGui();
+//		LaunchGameGui gui = new LaunchGameGui();
+		YourGrid battleGrid = new YourGrid();
 		
 		
 		

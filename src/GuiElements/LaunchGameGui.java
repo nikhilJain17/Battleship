@@ -1,3 +1,4 @@
+package GuiElements;
 // Creates a gui to enter name
 // And thats about it
 

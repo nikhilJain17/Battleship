@@ -63,7 +63,7 @@ class Main {
 		private static void sendGet() throws Exception {
 
 //			String url = "http://www.google.com/search?q=mkyong";
-			String url = "http://54b7b6a3.ngrok.io";
+			String url = "http://54b7b6a3.ngrok.io/test";
 			
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();

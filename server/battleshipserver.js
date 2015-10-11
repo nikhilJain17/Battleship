@@ -10,6 +10,11 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get("/test", function(req, res) {
+    console.log("Handling GET request!"); 
+    res.send("Test accepted");
+});
+
 http.listen(3000, function () {
   console.log('listening on *3000');
 });
@@ -21,6 +26,7 @@ io.on('connection', function (socket) {
   console.log("A user connected.");
 
   io.emit('test connection');
+    
 
 
   /************************************************************

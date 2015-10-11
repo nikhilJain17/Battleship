@@ -13,56 +13,32 @@ import java.net.URL;
 
 class Main {
 
-	private static final String USER_AGENT = "Mozilla/5.0";
-
 	
 	public static void main(String [ ] args) {
 		
 		System.out.println("Hello World");
-//		
+		
+		// send a quick ack, why dont you
 		try {
-//			connectToServer();
-			sendGet();
+			sendAck();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-
+		
+		// create and show gui
+		LaunchGameGui gui = new LaunchGameGui();
+		
 		
 		
 	} // end of main
 	
+	
 	 
-	private static void connectToServer() throws IOException {
-		final int portNumber = 3000; 
-		System.out.println("Connecting to server on port " + portNumber );
-//		ServerSocket mServerSocket = new ServerSocket(portNumber);
-		
-		while (true) {
-			Socket mSocket = new Socket("http://54b7b6a3.ngrok.io", 3000);
-			OutputStream os = mSocket.getOutputStream();
-			PrintWriter pw = new PrintWriter(os, true);
-			pw.println("Whats your name?");
-			
-			BufferedReader br = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
-			String str = br.readLine();
-			
-			pw.println("Hello, " + str);
-			pw.close();
-			mSocket.close();
-			
-			System.out.println("Just said hello to " + str);
-			
-		} // end of while
-		
-	} // end of connectToServer()
-	
-	
-	// HTTP GET request
-		private static void sendGet() throws Exception {
+	// acknowledge that you are connected to the server
+	private static void sendAck() throws Exception {
 
-//			String url = "http://www.google.com/search?q=mkyong";
 			String url = "http://54b7b6a3.ngrok.io/test";
 			
 			URL obj = new URL(url);
@@ -72,7 +48,7 @@ class Main {
 			con.setRequestMethod("GET");
 
 			//add request header
-			con.setRequestProperty("User-Agent", USER_AGENT);
+			con.setRequestProperty("User-Agent", "");
 
 			int responseCode = con.getResponseCode();
 			System.out.println("\nSending 'GET' request to URL : " + url);

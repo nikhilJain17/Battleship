@@ -82,7 +82,13 @@ public class SetupShipsGui extends JFrame {
 					
 					//2. Open the YourGrid cheese
 					
-				}
+				}// end of if
+				
+				else {
+					// show dialog saying user is an idiot
+					JOptionPane.showMessageDialog(SetupShipsGui.this, "You need at least 10 ships!", 
+							"Come on", 2, null);
+				} // end of else
 				
 			}
 			

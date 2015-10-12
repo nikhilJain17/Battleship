@@ -33,11 +33,12 @@ public class SetupShipsGui extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// Changes text on the Button
 					if (((AbstractButton) e.getSource()).getText().equals("No Ship"))
-						((AbstractButton) e.getSource()).setText("Ship Set");
+						((AbstractButton) e.getSource()).setText("<html><FONT COLOR=RED>SET</html>");
 					
-					else
+					else {
 						((AbstractButton) e.getSource()).setText("No Ship");
-					
+//						((AbstractButton) e.getSource()).set(Color.RED);
+					}
 				}
 				
 			}); // end of action Listener
@@ -46,7 +47,7 @@ public class SetupShipsGui extends JFrame {
 			
 		} // end of for loop
 		
-		this.setBounds(0, 0, 450, 450);
+		this.setBounds(0, 0, 1000, 750);
 		this.setVisible(true);
 		
 	} // end of constructor

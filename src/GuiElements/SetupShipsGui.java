@@ -67,11 +67,11 @@ public class SetupShipsGui extends JFrame {
 				int actualConfirmed = 0;
 				for (int i = 0; i < 100; i++) {
 				// iterate through the buttons, check how many ships are set		
-					if (setShips[i].getText().equals("SET"))
+					if (setShips[i].getText().equals("<html><FONT COLOR=RED>SET</html>"))
 						actualConfirmed++;
 				} // end of for
 				
-				if (actualConfirmed > SHIPS) {
+				if (actualConfirmed >= SHIPS) {
 					// enough ships were placed
 					//1. Send that info to the server 
 					try {
@@ -81,6 +81,8 @@ public class SetupShipsGui extends JFrame {
 					}
 					
 					//2. Open the YourGrid cheese
+					YourGrid gui = new YourGrid();
+					deleteMe();
 					
 				}// end of if
 				
@@ -104,6 +106,9 @@ public class SetupShipsGui extends JFrame {
 		
 	} // end of constructor
 	
+	private void deleteMe() {
+		this.setVisible(false);
+	}
 	
 	private void sendPost() throws Exception {
 

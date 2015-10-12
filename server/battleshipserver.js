@@ -45,6 +45,9 @@ socket.on('disconnect', function () {
 // socket.on('confirm positions', positions[], function() {
 //
 // })
+app.get("/user1_ships", function(req, res) {
+    console.log("Getting ship locations from user1");
+});
 
 
 

@@ -11,7 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 
-import GuiElements.YourGrid;
+import GuiElements.*;
 
 class Main {
 
@@ -31,7 +31,8 @@ class Main {
 		
 		// create and show gui
 //		LaunchGameGui gui = new LaunchGameGui();
-		YourGrid battleGrid = new YourGrid();
+//		YourGrid battleGrid = new YourGrid();
+		SetupShipsGui setup = new SetupShipsGui();
 		
 		
 		

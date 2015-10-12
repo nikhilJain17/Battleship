@@ -34,11 +34,14 @@ public class YourGrid extends JFrame {
 		battlePanel.setLayout(battleGrid);
 		battlePanel.setVisible(true);
 		
+//		shipArray = new JButton[10][10];
 		shipArray = new JButton[100];
 		
-		for (int i = 0; i < shipArray.length; i++) {
-			shipArray[i] = new JButton("X");
+		for (int i = 0; i < 100; i++) {
+				
+			shipArray[i] = new JButton("X");	
 			battlePanel.add(shipArray[i]);
+		
 		}
 		
 		

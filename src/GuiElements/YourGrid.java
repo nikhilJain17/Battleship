@@ -39,7 +39,7 @@ public class YourGrid extends JFrame {
 		
 		for (int i = 0; i < 100; i++) {
 				
-			shipArray[i] = new JButton("X");	
+			shipArray[i] = new JButton("X");		
 			battlePanel.add(shipArray[i]);
 		
 		}

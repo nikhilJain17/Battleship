@@ -1,0 +1,53 @@
+<!-- The webpage to be displayed by the server -->
+<!-- @TODO add stuff lol -->
+
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+    <title>Battleship</title>
+    
+    <style>
+        body {
+            background-color: #ecfce8;
+            
+            color: #625D6A;
+            
+            font-family: sans-serif;
+        }
+        
+        
+        
+    </style>
+    
+</head>
+
+<!-- To connect to the server as you load the page -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+</script>
+
+
+<body>
+    
+<!--    A floating bar thing    -->
+    <div style="background-color:#413C58">
+        <h4>SampleText</h4>
+    </div>
+    
+  <h1>Battleship</h1>
+  <h2>A game created by Nikhil Jain, Rohan Shah, and Ishan Vachhani</h2>
+    
+  <h3>What is Battleship?</h3>
+    <p>Battleship is a 2 person game where the objective is to sink your opponent's  battleships. The catch? You don't know where their ships are located.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae est eros. Vestibulum pulvinar nisi et sollicitudin imperdiet. Curabitur auctor diam at dapibus fringilla.You don't know where their ships are located.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae est eros. Vestibulum pulvinar nisi et sollicitudin imperdiet. Curabitur auctor diam at dapibus fringilla.</p>
+    
+<!--line breaks-->
+    <br>
+    <br>
+    
+    <img src="https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fs3.amazonaws.com%2Fproduction.mediajoint.prx.org%2Fpublic%2Fpiece_images%2F24221%2Fshipfromwater1.jpg&f=1" alt="Battleship" width="500" height="456">
+
+
+</html>

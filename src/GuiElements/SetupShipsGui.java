@@ -7,7 +7,9 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.net.*;
 import org.apache.commons.*;//httpclient.*;//http.client.*;
 import org.apache.commons.httpclient.*;
@@ -20,7 +22,7 @@ import javax.swing.*;
 
 public class SetupShipsGui extends JFrame {
 
-	JFrame theMainFrame; // the frame that holds everything
+	JPanel theMainFrame; // the frame that holds everything
 	
 	JButton[] setShips; // array to hold where you want to place the ships
 	GridLayout gridLayout;
@@ -31,8 +33,8 @@ public class SetupShipsGui extends JFrame {
 	
 	public SetupShipsGui() {
 		
-		theMainFrame = new JFrame();
-		theMainFrame.setTitle("Place your ships");
+		theMainFrame = new JPanel();
+//		theMainFrame.setTitle("Place your ships");
 		
 		setShips = new JButton[100];
 		gridLayout = new GridLayout(11, 10);
@@ -79,18 +81,31 @@ public class SetupShipsGui extends JFrame {
 				
 				if (actualConfirmed >= SHIPS) {
 					// enough ships were placed
-					//1. Send that info to the server 
-					try {
-						// This is a critical point in the program
-//						sendShips();
-						sendPost();
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
 					
 					//2. Open the YourGrid cheese
 					YourGrid gui = new YourGrid();
+					
+				
+					//1. Send that info to the server 
+//					Runnable r = new Runnable() {
+//						// This is a critical point in the program
+////						sendShips();
+//
+//						@Override
+//						public void run() {
+							try {
+								System.out.println("Sending ships");
+								sendPost();
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+//						}
+//					};
+//					r.run();
+					
 					deleteMe();
+					
 					
 				}// end of if
 				
@@ -107,85 +122,87 @@ public class SetupShipsGui extends JFrame {
 		
 		theMainFrame.add(submitBtn);
 		JLabel dontreadthis = new JLabel("<html><b>\tPlace " + SHIPS + " ships</b></html>");
-		theMainFrame.setPreferredSize(new Dimension());
+		theMainFrame.setPreferredSize(new Dimension(1280, 720));
 		theMainFrame.add(dontreadthis);
-		theMainFrame.setBounds(0, 0, 1280, 750);
+		theMainFrame.setBounds(0, 0, 1280, 700);
 		theMainFrame.setVisible(true);
 		
 		this.setLayout(new BorderLayout());
+		this.setBounds(0, 0, 1280, 720);
+//		this.setBounds(getMaximizedBounds());
+		this.setVisible(true);
 		this.add(theMainFrame, BorderLayout.CENTER);
 		
 	} // end of constructor
 	
 	private void deleteMe() {
-		theMainFrame.setVisible(false);
+		this.setVisible(false);
 //		this.
 	}
 	
-	private void sendShips() {
-		
-//		HttpClient client = ;
-		String url = "http://b3510ffa.ngrok.io/user1_ships";
-//		PostMethod post = new PostMethod(url); 
+//	private void sendShips() {
 //		
-//		NameValuePair[] data = {
-//				new NameValuePair("ship1", "1")
-//		};
+////		HttpClient client = ;
+//		String url = "http://10917bc9.ngrok.io/user1_ships";
+////		PostMethod post = new PostMethod(url); 
+////		
+////		NameValuePair[] data = {
+////				new NameValuePair("ship1", "1")
+////		};
+////		
+////		post.setRequestBody(data);
 //		
-//		post.setRequestBody(data);
-		
-		
-	}
+//		
+//	}
 	
 	
 	private void sendPost() throws Exception {
-
-		String url = "http://b3510ffa.ngrok.io/user1_ships";
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-		//add reuqest header
-		con.setRequestMethod("POST");
-		con.setRequestProperty("User-Agent", "");
-		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-//PostMethod post = new PostMethod(url); 
-//		
-//		NameValuePair[] data = {
-//				new NameValuePair("ship1", "1")
-//		};
-//		
-//		post.setRequestBody(data);
-
-//		String urlParameters = "shiplocations=12345";
 		
-		// the datum to send
-//		NameValuePair[] data = {
-//				new NameValuePair("ship1", "1")
-//		};
-		String data = "ship1: " + "1";
+		String sendShips = "";
+		// check which ships are selected
+		for (int i = 0; i < 100; i++) {
+			
+			if (setShips[i].getText().equals("<html><FONT COLOR=RED>SET</html>")) {
+				
+				// append to the url
+				sendShips += ("&ship=" + i);
+				
+			} // end of if
+					
+		} // end of for
 		
-		// write data
-		con.setDoOutput(true);
-		OutputStream os = con.getOutputStream();
-		os.write(data.getBytes());
-
-		int responseCode = con.getResponseCode();
-		System.out.println("\nSending 'POST' request to URL : " + url);
-		System.out.println("Post parameters : ");
-		System.out.println("Response Code : " + responseCode);
-
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
+		System.out.println("Params: " + sendShips);
 		
-		//print result
-		System.out.println(response.toString());
+		// open a HTTP connection to the server
+		URL url = new URL("http://10917bc9.ngrok.io/user1_ships");
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("POST");
+		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		connection.setDoOutput(true);
+		
+		// send the ship data
+		OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+		// TODO Get the actual ships and send them
+		writer.write("ignore=-1");
+		writer.write(sendShips);
+		writer.flush();
+		
+		System.out.println("Sent post to " + url);
+//		System.out.println("Response code: " + connection.getResponseCode());
+		
+//		// Get the response from the server
+//		String line;
+//		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//		while ((line = reader.readLine()) != null) {
+//			System.out.println(line);
+//		}
+		
+		// clean up resources
+		writer.close();
+//		reader.close();
+		
+
+		
 
 	}
 	

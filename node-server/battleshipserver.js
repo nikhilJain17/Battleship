@@ -4,12 +4,12 @@
 var app = require('express')();
 //var http = require('http').Server(app);
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+// var io = require('socket.io')(http);
 
 
 
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
   // send the html file to be served up
   res.sendFile(__dirname + '/index.html');
 });
@@ -21,9 +21,14 @@ app.get("/test", function(req, res) {
 
 
 app.post('/user1_ships', function(req, res) {
+
     console.log("Got ships");
-    var watisurproject = req;
-    console.log(watisurproject);
+    // var watisurproject = req;
+
+    // var parsed = JSON.parse(res);
+    // console.log(parsed);
+    
+    // console.log(watisurproject);
 //    res.send("Got ships bro");
 });
 
@@ -49,26 +54,26 @@ http.listen(3000, function () {
 *       Useless garbage, but do not delete
 */
 
-// When a device connects to the server
-io.on('connection', function (socket) {
+// // When a device connects to the server
+// io.on('connection', function (socket) {
 
-  console.log("A user connected.");
+//   console.log("A user connected.");
 
-  io.emit('test connection');
+//   io.emit('test connection');
 
 
-  // 1. disconnecting from server
-socket.on('disconnect', function () {
-    console.log("A user disconnected");
-  });
+//   // 1. disconnecting from server
+// socket.on('disconnect', function () {
+//     console.log("A user disconnected");
+//   });
 
     
-// 2. data dump
-    socket.on('Hello Server', function() {
-       console.log('Do not read this text.'); 
-    });
+// // 2. data dump
+//     socket.on('Hello Server', function() {
+//        console.log('Do not read this text.'); 
+//     });
 
 
 
 
-});
+// });

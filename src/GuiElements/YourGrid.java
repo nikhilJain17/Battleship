@@ -45,7 +45,7 @@ public class YourGrid extends JFrame {
 		}
 		
 		
-		this.setTitle("Your Battleships!");
+		this.setTitle("Your NUTZ!");
 //		this.setBackground(Color.BLUE);
 		this.setVisible(true);
 		this.setBounds(10, 10, 1000, 666);

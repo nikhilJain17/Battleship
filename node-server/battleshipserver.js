@@ -24,10 +24,15 @@ app.post('/user1_ships', function(req, res) {
 
     res.send('Hello from the ships of planet earth');
     console.log("Got ships");
-    // var watisurproject = req;
 
-    // var parsed = JSON.parse(res);
-    // console.log(parsed);
+    req.on('data', function(chunk) {
+      console.log("Received body data:");
+      console.log(chunk.toString());
+    });
+
+    // console.log(req.url);
+    // console.log(req.params);
+    // console.log(req.useragent);
 
     // console.log(watisurproject);
 //    res.send("Got ships bro");

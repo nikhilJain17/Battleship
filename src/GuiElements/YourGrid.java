@@ -45,7 +45,7 @@ public class YourGrid extends JFrame {
 		}
 		
 		
-		this.setTitle("Your NUTZ!");
+		this.setTitle("Your $hips!");
 //		this.setBackground(Color.BLUE);
 		this.setVisible(true);
 		this.setBounds(10, 10, 1000, 666);

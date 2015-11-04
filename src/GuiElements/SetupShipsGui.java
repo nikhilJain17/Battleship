@@ -11,8 +11,9 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.net.*;
 import org.apache.commons.*;//httpclient.*;//http.client.*;
-import org.apache.commons.httpclient.*;
-import org.apache.commons.httpclient.methods.PostMethod;
+//import org.apache.commons.httpclient.*;
+//import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.HttpClient;
 
 import javax.swing.*;
 
@@ -152,16 +153,21 @@ public class SetupShipsGui extends JFrame {
 	
 //	private void sendShips() {
 //		
-////		HttpClient client = ;
-//		String url = "http://10917bc9.ngrok.io/user1_ships";
-////		PostMethod post = new PostMethod(url); 
-////		
-////		NameValuePair[] data = {
-////				new NameValuePair("ship1", "1")
-////		};
-////		
-////		post.setRequestBody(data);
-//		
+//		 HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead 
+//
+//		    try {
+//		        HttpPost request = new HttpPost("http://yoururl");
+//		        StringEntity params =new StringEntity("details={\"name\":\"myname\",\"age\":\"20\"} ");
+//		        request.addHeader("content-type", "application/x-www-form-urlencoded");
+//		        request.setEntity(params);
+//		        HttpResponse response = httpClient.execute(request);
+//
+//		        // handle response here...
+//		    }catch (Exception ex) {
+//		        // handle exception here
+//		    } finally {
+//		        httpClient.getHttpConnectionManager().shutdown(); //Deprecated
+//		    }
 //		
 //	}
 	
@@ -169,17 +175,7 @@ public class SetupShipsGui extends JFrame {
 	private void sendPost() throws Exception {
 		
 		String sendShips = "";
-		// check which ships are selected
-		for (int i = 0; i < 100; i++) {
-			
-			if (setShips[i].getText().equals("<html><FONT COLOR=RED>SET</html>")) {
-				
-				// append to the url
-				sendShips += ("&ship=" + i);
-				
-			} // end of if
-					
-		} // end of for
+		
 		
 		System.out.println("Params: " + sendShips);
 		
@@ -189,12 +185,35 @@ public class SetupShipsGui extends JFrame {
 
 		//add reuqest header
 		con.setRequestMethod("POST");
-		con.setRequestProperty("User-Agent", "");
+		con.setRequestProperty("User-Agent", "User 1");
 		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 		
 		// Send post request
 		con.setDoOutput(true);
 		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+//		wr.writeBytes(sendShips);
+		
+		// check which ships are selected
+		// send the data as well
+				for (int i = 0; i < 100; i++) {
+					
+					if (setShips[i].getText().equals("<html><FONT COLOR=RED>SET</html>")) {
+						
+						// append to the params to be passed
+						sendShips += ("," + i);
+						
+//						// WRITE THE DATA HERE
+//						String tag = "ship" + i;
+//						String data = Integer.toString(i);
+//						String send = tag + ":" + data + "\n";
+//						wr.writeBytes(send);
+						
+						
+					} // end of if
+							
+				} // end of for
+		
+		System.out.println(sendShips);
 		wr.writeBytes(sendShips);
 		wr.flush();
 		wr.close();

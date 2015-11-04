@@ -8,7 +8,6 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.net.*;
 import org.apache.commons.*;//httpclient.*;//http.client.*;
@@ -82,17 +81,27 @@ public class SetupShipsGui extends JFrame {
 				if (actualConfirmed >= SHIPS) {
 					// enough ships were placed
 					
-					//2. Open the YourGrid cheese
-					YourGrid gui = new YourGrid();
+					//2. Open the YourGrid cheese ON A NEW THREAD
+				
+					SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+
+						@Override
+						protected Void doInBackground() throws Exception {
+							
+							YourGrid gui = new YourGrid();
+							return null;
+
+						}
+					};
 					
 				
 					//1. Send that info to the server 
-//					Runnable r = new Runnable() {
-//						// This is a critical point in the program
-////						sendShips();
-//
-//						@Override
-//						public void run() {
+					Runnable r = new Runnable() {
+						// This is a critical point in the program
+//						sendShips();
+
+						@Override
+						public void run() {
 							try {
 								System.out.println("Sending ships");
 								sendPost();
@@ -100,10 +109,11 @@ public class SetupShipsGui extends JFrame {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-//						}
-//					};
-//					r.run();
+						}
+					};
+					r.run();
 					
+					worker.execute();
 					deleteMe();
 					
 					
@@ -173,33 +183,69 @@ public class SetupShipsGui extends JFrame {
 		
 		System.out.println("Params: " + sendShips);
 		
-		// open a HTTP connection to the server
-		URL url = new URL("http://10917bc9.ngrok.io/user1_ships");
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("POST");
-		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-		connection.setDoOutput(true);
+		String url = "http://10917bc9.ngrok.io/user1_ships";
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+		//add reuqest header
+		con.setRequestMethod("POST");
+		con.setRequestProperty("User-Agent", "");
+		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 		
-		// send the ship data
-		OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-		// TODO Get the actual ships and send them
-		writer.write("ignore=-1");
-		writer.write(sendShips);
-		writer.flush();
+		// Send post request
+		con.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		wr.writeBytes(sendShips);
+		wr.flush();
+		wr.close();
+
+		int responseCode = con.getResponseCode();
+		System.out.println("\nSending 'POST' request to URL : " + url);
+		System.out.println("Response Code : " + responseCode);
+
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
 		
-		System.out.println("Sent post to " + url);
-//		System.out.println("Response code: " + connection.getResponseCode());
+		//print result
+		System.out.println(response.toString());
 		
-//		// Get the response from the server
-//		String line;
-//		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//		while ((line = reader.readLine()) != null) {
-//			System.out.println(line);
-//		}
 		
-		// clean up resources
-		writer.close();
-//		reader.close();
+//		// open a HTTP connection to the server
+//		URL url = new URL("http://www.10917bc9.ngrok.io/user1_ships");
+//		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//		connection.setRequestMethod("POST");
+//		connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+//		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+//		connection.setDoOutput(true);
+//		
+//		//.
+//		
+//		// send the ship data
+//		OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+//		// TODO Get the actual ships and send them
+//		writer.write("ignore=-1");
+//		writer.write(sendShips);
+//		writer.flush();
+//		
+//		System.out.println("Sent post to " + url);
+//		
+////		// Get the response from the server
+////		String line;
+////		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+////		while ((line = reader.readLine()) != null) {
+////			System.out.println(line);
+////		}
+//		
+//		// clean up resources
+//		writer.close();
+////		reader.close();
 		
 
 		

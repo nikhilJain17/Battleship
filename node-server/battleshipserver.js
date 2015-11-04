@@ -22,12 +22,13 @@ app.get("/test", function(req, res) {
 
 app.post('/user1_ships', function(req, res) {
 
+    res.send('Hello from the ships of planet earth');
     console.log("Got ships");
     // var watisurproject = req;
 
     // var parsed = JSON.parse(res);
     // console.log(parsed);
-    
+
     // console.log(watisurproject);
 //    res.send("Got ships bro");
 });

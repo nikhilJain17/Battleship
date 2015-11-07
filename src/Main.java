@@ -43,7 +43,7 @@ class Main {
 	// acknowledge that you are connected to the server
 	private static void sendAck() throws Exception {
 
-			String url = "http://10917bc9.ngrok.io/test";
+			String url = "http://9ff96ab3.ngrok.io/test";
 			
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();

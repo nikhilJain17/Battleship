@@ -179,7 +179,7 @@ public class SetupShipsGui extends JFrame {
 		
 		System.out.println("Params: " + sendShips);
 		
-		String url = "http://10917bc9.ngrok.io/user1_ships";
+		String url = "http://9ff96ab3.ngrok.io/user1_ships";
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 

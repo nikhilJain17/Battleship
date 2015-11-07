@@ -19,15 +19,25 @@ app.get("/test", function(req, res) {
     res.send("Test accepted");
 });
 
+// The array that holds the location of the ships of user 1
+var userOneShips;
+// Same but for user 2
+var userTwoShips;
 
 app.post('/user1_ships', function(req, res) {
 
     res.send('Hello from the ships of planet earth');
     console.log("Got ships");
 
+    // retrieve the datum from the post request
     req.on('data', function(chunk) {
-      console.log("Received body data:");
+
+      console.log("Received some $hips:");
       console.log(chunk.toString());
+      
+      var shipStr = chunk.toString();
+      userOneShips = shipStr.split();
+
     });
 
     // console.log(req.url);
@@ -58,6 +68,7 @@ http.listen(3000, function () {
 
 /*
 *       Useless garbage, but do not delete
+
 */
 
 // // When a device connects to the server

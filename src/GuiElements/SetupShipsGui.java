@@ -6,25 +6,24 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.net.*;
-import org.apache.commons.*;//httpclient.*;//http.client.*;
+
 //import org.apache.commons.httpclient.*;
 //import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.HttpClient;
+
 
 import javax.swing.*;
 
+//import com.sun.net.ssl.HttpsURLConnection;
 
 // To place your ships on the board
 
 public class SetupShipsGui extends JFrame {
-
-	JPanel theMainFrame; // the frame that holds everything
 	
-	JButton[] setShips; // array to hold where you want to place the ships
+	
+	JButton[][] setShips; // array to hold where you want to place the ships
 	GridLayout gridLayout;
 	
 	JButton submitBtn; // to confirm the ships location, post that shit, and progress
@@ -33,18 +32,17 @@ public class SetupShipsGui extends JFrame {
 	
 	public SetupShipsGui() {
 		
-		theMainFrame = new JPanel();
-//		theMainFrame.setTitle("Place your ships");
+		this.setTitle("Place your ships");
 		
-		setShips = new JButton[100];
+		setShips = new JButton[10][10];
 		gridLayout = new GridLayout(11, 10);
-		theMainFrame.setLayout(gridLayout);
+		this.setLayout(gridLayout);
 		
-		// init the frame
-		for (int i = 0; i < 100; i++) {
-			
-			setShips[i] = new JButton("No Ship");
-			setShips[i].addActionListener(new ActionListener() {
+		// initial the frame
+		for (int i = 0; i < 10; i++) {
+			for (int x = 0; x < 10; x++){
+			setShips[i][x] = new JButton("No Ship");
+			setShips[i][x].addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -59,9 +57,9 @@ public class SetupShipsGui extends JFrame {
 				}
 				
 			}); // end of action Listener
+			this.add(setShips[i][x]);
 			
-			theMainFrame.add(setShips[i]);
-			
+			}	
 		} // end of for loop
 		
 		
@@ -73,17 +71,17 @@ public class SetupShipsGui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				int actualConfirmed = 0;
-				for (int i = 0; i < 100; i++) {
+				for (int i = 0; i < 10; i++) {
+					for (int x = 0; x < 10; x++){
 				// iterate through the buttons, check how many ships are set		
-					if (setShips[i].getText().equals("<html><FONT COLOR=RED>SET</html>"))
+					if (setShips[i][x].getText().equals("<html><FONT COLOR=RED>SET</html>"))
 						actualConfirmed++;
 				} // end of for
-				
+				}
 				if (actualConfirmed >= SHIPS) {
 					// enough ships were placed
-					
 					//2. Open the YourGrid cheese ON A NEW THREAD
-				
+					
 					SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 
 						@Override
@@ -95,7 +93,6 @@ public class SetupShipsGui extends JFrame {
 						}
 					};
 					
-				
 					//1. Send that info to the server 
 					Runnable r = new Runnable() {
 						// This is a critical point in the program
@@ -117,12 +114,11 @@ public class SetupShipsGui extends JFrame {
 					worker.execute();
 					deleteMe();
 					
-					
 				}// end of if
 				
 				else {
-					// show dialog saying user is an idiot
-					JOptionPane.showMessageDialog(theMainFrame, "You need at least 10 ships!", 
+					// show dialog saying user is an dumb
+					JOptionPane.showInternalMessageDialog(SetupShipsGui.this, "You need at least 10 ships!", 
 							"Come on", 2, null);
 				} // end of else
 				
@@ -131,51 +127,28 @@ public class SetupShipsGui extends JFrame {
 		});
 		
 		
-		theMainFrame.add(submitBtn);
+		this.add(submitBtn);
 		JLabel dontreadthis = new JLabel("<html><b>\tPlace " + SHIPS + " ships</b></html>");
-		theMainFrame.setPreferredSize(new Dimension(1280, 720));
-		theMainFrame.add(dontreadthis);
-		theMainFrame.setBounds(0, 0, 1280, 700);
-		theMainFrame.setVisible(true);
+		this.setPreferredSize(new Dimension(1280, 720));
+		this.add(dontreadthis);
+		this.setBounds(0, 0, 1280, 750);
+		this.setVisible(true);
 		
 		this.setLayout(new BorderLayout());
 		this.setBounds(0, 0, 1280, 720);
 //		this.setBounds(getMaximizedBounds());
 		this.setVisible(true);
-		this.add(theMainFrame, BorderLayout.CENTER);
+
 		
 	} // end of constructor
 	
 	private void deleteMe() {
 		this.setVisible(false);
-//		this.
 	}
 	
-//	private void sendShips() {
-//		
-//		 HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead 
-//
-//		    try {
-//		        HttpPost request = new HttpPost("http://yoururl");
-//		        StringEntity params =new StringEntity("details={\"name\":\"myname\",\"age\":\"20\"} ");
-//		        request.addHeader("content-type", "application/x-www-form-urlencoded");
-//		        request.setEntity(params);
-//		        HttpResponse response = httpClient.execute(request);
-//
-//		        // handle response here...
-//		    }catch (Exception ex) {
-//		        // handle exception here
-//		    } finally {
-//		        httpClient.getHttpConnectionManager().shutdown(); //Deprecated
-//		    }
-//		
-//	}
-	
-	
 	private void sendPost() throws Exception {
-		
+
 		String sendShips = "";
-		
 		
 		System.out.println("Params: " + sendShips);
 		
@@ -183,10 +156,11 @@ public class SetupShipsGui extends JFrame {
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-		//add reuqest header
+		//add request header
 		con.setRequestMethod("POST");
 		con.setRequestProperty("User-Agent", "User 1");
 		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
 		
 		// Send post request
 		con.setDoOutput(true);
@@ -195,12 +169,13 @@ public class SetupShipsGui extends JFrame {
 		
 		// check which ships are selected
 		// send the data as well
-				for (int i = 0; i < 100; i++) {
+				for (int i = 0; i < 10; i++) {
 					
-					if (setShips[i].getText().equals("<html><FONT COLOR=RED>SET</html>")) {
+				for (int x = 0; x < 10; x++){
+					if (setShips[i][x].getText().equals("<html><FONT COLOR=RED>SET</html>")) {
 						
 						// append to the params to be passed
-						sendShips += ("," + i);
+						sendShips += ("," + i + " " + x);
 						
 //						// WRITE THE DATA HERE
 //						String tag = "ship" + i;
@@ -210,7 +185,7 @@ public class SetupShipsGui extends JFrame {
 						
 						
 					} // end of if
-							
+				}		
 				} // end of for
 		
 		System.out.println(sendShips);
@@ -220,6 +195,7 @@ public class SetupShipsGui extends JFrame {
 
 		int responseCode = con.getResponseCode();
 		System.out.println("\nSending 'POST' request to URL : " + url);
+		
 		System.out.println("Response Code : " + responseCode);
 
 		BufferedReader in = new BufferedReader(
@@ -234,51 +210,8 @@ public class SetupShipsGui extends JFrame {
 		
 		//print result
 		System.out.println(response.toString());
-		
-		
-//		// open a HTTP connection to the server
-//		URL url = new URL("http://www.10917bc9.ngrok.io/user1_ships");
-//		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//		connection.setRequestMethod("POST");
-//		connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-//		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//		connection.setDoOutput(true);
-//		
-//		//.
-//		
-//		// send the ship data
-//		OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-//		// TODO Get the actual ships and send them
-//		writer.write("ignore=-1");
-//		writer.write(sendShips);
-//		writer.flush();
-//		
-//		System.out.println("Sent post to " + url);
-//		
-////		// Get the response from the server
-////		String line;
-////		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-////		while ((line = reader.readLine()) != null) {
-////			System.out.println(line);
-////		}
-//		
-//		// clean up resources
-//		writer.close();
-////		reader.close();
-		
-
-		
 
 	}
-	
-	// TODO Paint that background!
-//	
-//	@Override
-//	protected void paint(Graphics g) {
-//		// draw some cheese
-//		g.setColor(Color.GREEN);
-//		
-//	}
 	
 	
 	// once you are done, start YourGridGui

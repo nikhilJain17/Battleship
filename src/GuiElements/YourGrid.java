@@ -26,11 +26,18 @@ public class YourGrid extends JFrame {
 	// for sending attacks u mormon
 	JToggleButton[][] attackButtonArray;
 	
+	JButton confirmAttack; // to send out the attack fo sho
+	
 	// so far this variable has proved to be as useful as [redacted] 
 	int turnNumber = 1;
 	
+	
+	
+	
 	// Construction tools
 	public YourGrid() {
+		
+		System.out.println("we are here in yourgrid");
 		
 		// actionpanel stuff
 		actionPanel = new JPanel();
@@ -70,8 +77,7 @@ public class YourGrid extends JFrame {
 		opponentPanel.setLayout(new GridLayout(10,10));
 		opponentPanel.setVisible(true);
 		
-		attackButtonArray = new JToggleButton[10][10];
-		
+
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 			
@@ -125,10 +131,41 @@ public class YourGrid extends JFrame {
 			} // end of inner for loop
 		} // end of for
 		
+		attackButtonArray = new JToggleButton[10][10];
+		
+		confirmAttack = new JButton("Confirm");
+		confirmAttack.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				// send da attack
+				String whichVon = "";
+				
+				for (int i = 0; i < 10; i++)
+					for (int j = 0; j < 10; j++) {
+						
+						if (attackButtonArray[i][j].getText().equals("BOOM!")) 
+							whichVon = i + " " + j;
+						
+						
+					} // end of inner for
+			
+				try {
+					sendAttacks(whichVon);
+				} 
+				catch (IOException e1) {
+					e1.printStackTrace();
+				} // end of tryCatch
+				
+			} // end of actionPerformed
+			
+		}); // end of actionlistener 
+		
 		
 		this.setTitle("Your $hips!");
 		this.setBackground(Color.BLUE);
-		this.setVisible(true);
+//		this.setVisible(true);
 		this.setBounds(0, 0, 1280, 1080);
 		
 		this.setLayout(new BorderLayout());
@@ -139,6 +176,9 @@ public class YourGrid extends JFrame {
 		
 //		this.add();
 	} // end of constructor
+	
+	
+	
 	
 	// send some attacks to the serber
 	private void sendAttacks(String whichVon) throws IOException {

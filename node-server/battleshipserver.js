@@ -24,6 +24,7 @@ var userOneShips;
 // Same but for user 2
 var userTwoShips;
 
+// user 1 sends the ships
 app.post('/user1_ships', function(req, res) {
 
     res.send('Hello from the ships of planet earth');
@@ -46,6 +47,22 @@ app.post('/user1_ships', function(req, res) {
 
     // console.log(watisurproject);
 //    res.send("Got ships bro");
+});
+
+
+// user 1 sends the attacks they want
+app.post('/attackOnTitan1', function(req, res) {
+
+    res.send('Got some attacks from user 1');
+    console.log('got ships from u$3r 1');
+
+    // retrieve the datum
+    req.on('data', function(chunk) {
+        console.log(chunk.toString());
+
+    });
+
+
 });
 
 

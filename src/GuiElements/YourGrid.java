@@ -57,6 +57,11 @@ public class YourGrid extends JFrame {
 		battlePanel.setPreferredSize(new Dimension(500, 500));
 		battlePanel.setLayout(battleGrid);
 		battlePanel.setVisible(true);
+		battlePanel.setBackground(Color.BLUE);
+		
+		battlePanel.add(new JLabel("Your ships")); // add a label explaining what it is
+		for (int i = 0; i < 10; i++)
+			battlePanel.add(new JLabel(""));
 		
 //		shipArray = new JButton[10][10];
 		shipArray = new JButton[100];
@@ -75,8 +80,14 @@ public class YourGrid extends JFrame {
 		opponentPanel.setPreferredSize(new Dimension(550, 550));
 		opponentPanel.setAlignmentX(25);
 		opponentPanel.setAlignmentY(400);
-		opponentPanel.setLayout(new GridLayout(10,10));
+		opponentPanel.setLayout(new GridLayout(11,10));
 		opponentPanel.setVisible(true);
+		opponentPanel.setBackground(Color.red);
+
+		opponentPanel.add(new JLabel("Opponent Ships")); // add a label explaining what it is
+		// Padding lol
+		for (int i = 0; i < 9; i++)
+			opponentPanel.add(new JLabel("")); 
 		
 
 		for (int i = 0; i < 10; i++) {
@@ -134,6 +145,8 @@ public class YourGrid extends JFrame {
 		
 		
 		confirmAttack = new JButton("Confirm");
+		confirmAttack.setPreferredSize(new Dimension(100, 25));
+		
 		confirmAttack.addActionListener(new ActionListener() {
 
 			@Override
@@ -168,9 +181,11 @@ public class YourGrid extends JFrame {
 		this.setVisible(true);
 		this.setBounds(0, 0, 1280, 1080);
 		
+		// add the stuff 
 		this.setLayout(new BorderLayout());
 		this.add(battlePanel, BorderLayout.WEST);
 		this.add(opponentPanel, BorderLayout.EAST);
+		this.add(confirmAttack, BorderLayout.NORTH);
 //		this.add(battlePanel);
 //		this.add(opponentPanel);
 		this.setVisible(true);

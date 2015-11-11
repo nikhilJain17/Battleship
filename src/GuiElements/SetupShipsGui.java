@@ -294,7 +294,7 @@ public class SetupShipsGui extends JFrame {
     for (int i = 0; i < 10; i++) {
      
     for (int x = 0; x < 10; x++){
-     if (setShips[i][x].getText().equals("<html><FONT COLOR=RED>SET</html>")) {
+     if (setShips[i][x].getText().contains("SET")) {
       
       // append to the params to be passed
       sendShips += ("," + i + " " + x);

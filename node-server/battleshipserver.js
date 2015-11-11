@@ -54,7 +54,7 @@ app.post('/user1_ships', function(req, res) {
 app.post('/attackOnTitan1', function(req, res) {
 
     res.send('Got some attacks from user 1');
-    console.log('got ships from u$3r 1');
+    console.log('got attacks from u$3r 1');
 
     // retrieve the datum
     req.on('data', function(chunk) {

@@ -24,7 +24,8 @@ public class YourGrid extends JFrame {
 	JPanel opponentPanel; // opponent's ships(?) where u send ur attacks
 	
 	// for sending attacks u mormon
-	JToggleButton[][] attackButtonArray;
+	JToggleButton[][] attackButtonArray = new JToggleButton[10][10];
+	
 	
 	JButton confirmAttack; // to send out the attack fo sho
 	
@@ -131,7 +132,6 @@ public class YourGrid extends JFrame {
 			} // end of inner for loop
 		} // end of for
 		
-		attackButtonArray = new JToggleButton[10][10];
 		
 		confirmAttack = new JButton("Confirm");
 		confirmAttack.addActionListener(new ActionListener() {
@@ -165,13 +165,16 @@ public class YourGrid extends JFrame {
 		
 		this.setTitle("Your $hips!");
 		this.setBackground(Color.BLUE);
-//		this.setVisible(true);
+		this.setVisible(true);
 		this.setBounds(0, 0, 1280, 1080);
 		
 		this.setLayout(new BorderLayout());
 		this.add(battlePanel, BorderLayout.WEST);
 		this.add(opponentPanel, BorderLayout.EAST);
+//		this.add(battlePanel);
+//		this.add(opponentPanel);
 		this.setVisible(true);
+		
 		
 		
 //		this.add();

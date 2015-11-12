@@ -29,6 +29,8 @@ public class YourGrid extends JFrame {
 	
 	JButton confirmAttack; // to send out the attack fo sho
 	
+	JTextArea previousAttacks; // holds previous attacks that you sent
+	
 	// so far this variable has proved to be as useful as [redacted] 
 	int turnNumber = 1;
 	
@@ -175,6 +177,11 @@ public class YourGrid extends JFrame {
 			
 		}); // end of actionlistener 
 		
+		// TODO ADD A JSCROLLPANE
+		previousAttacks = new JTextArea("Sample text", 20, 1);
+		previousAttacks.setEditable(false);
+//		previousAttacks.
+		
 		
 		this.setTitle("Your $hips!");
 		this.setBackground(Color.BLUE);
@@ -186,6 +193,8 @@ public class YourGrid extends JFrame {
 		this.add(battlePanel, BorderLayout.WEST);
 		this.add(opponentPanel, BorderLayout.EAST);
 		this.add(confirmAttack, BorderLayout.NORTH);
+		this.add(previousAttacks, BorderLayout.CENTER);
+//		this.setBackground(Color.CYAN);
 //		this.add(battlePanel);
 //		this.add(opponentPanel);
 		this.setVisible(true);

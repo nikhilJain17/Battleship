@@ -37,7 +37,12 @@ app.post('/user1_ships', function(req, res) {
       console.log(chunk.toString());
       
       var shipStr = chunk.toString();
-      userOneShips = shipStr.split();
+      userOneShips = shipStr.split(",");
+
+      for (var i = 0; i < userOneShips.length; i++) {
+        console.log("Ships left " + userOneShips.length);
+        console.log(userOneShips[i]);
+      }
 
     });
 
@@ -59,6 +64,18 @@ app.post('/attackOnTitan1', function(req, res) {
     // retrieve the datum
     req.on('data', function(chunk) {
         console.log(chunk.toString());
+
+        var sentAttack = chunk.toString();
+
+        var hitOrMiss = false;
+        // check if there was a hit
+        for (var i = 0; i < userOneShips.length; i++) {
+          if (sentAttack == userOneShips[i]) {
+            console.log("HIT!")
+            hitOrMiss = true;
+          }
+        }
+
 
     });
 

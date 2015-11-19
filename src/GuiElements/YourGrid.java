@@ -15,6 +15,8 @@ import javax.swing.*;
 
 public class YourGrid extends JFrame {
 
+	boolean isPlayerOne;
+	
 	JPanel actionPanel; // holds buttons, menu, etc
 	
 	JButton[] shipArray;	// array for YOUR alwhe;iwahtships (bruh)
@@ -38,7 +40,9 @@ public class YourGrid extends JFrame {
 	
 	
 	// Construction tools
-	public YourGrid(int[][] nadgir) {
+	public YourGrid(int[][] nadgir, boolean dor) {
+		
+		isPlayerOne = dor;
 		
 		// ishan was here
 		for (int z = 0; z < 14; z++) {
@@ -129,7 +133,7 @@ public class YourGrid extends JFrame {
 //					
 //					// send attack to the server
 //					try {
-//						sendAttacks(sampleText);
+//						acks(sampleText);
 //					}
 //					catch (IOException r) {
 //						r.printStackTrace();
@@ -213,7 +217,7 @@ public class YourGrid extends JFrame {
 		System.out.println(whichVon);
 		
 		// the sweet url to send the bitter attacks
-		String url = "http://9ff96ab3.ngrok.io/attackOnTitan1";
+		String url = "http://localhost:3000/attackOnTitan1";
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 

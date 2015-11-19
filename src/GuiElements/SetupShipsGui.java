@@ -25,6 +25,8 @@ public class SetupShipsGui extends JFrame {
 	// do not read
 	int[][] nadgir = new int[14][2];
  
+	boolean isPlayerOne;
+	
  JButton[][] setShips; // array to hold where you want to place the ships
  int shipSize;
  int shipHorizontal;
@@ -36,8 +38,10 @@ public class SetupShipsGui extends JFrame {
  
  final int SHIPS = 13;
  
- public SetupShipsGui() {
+ public SetupShipsGui(boolean whom) {
   
+	 isPlayerOne = whom;
+	 
   this.setTitle("Place your ships");
   
   setShips = new JButton[10][10];
@@ -163,7 +167,7 @@ public class SetupShipsGui extends JFrame {
       @Override
       protected Void doInBackground() throws Exception {
        
-       YourGrid gui = new YourGrid(nadgir);
+       YourGrid gui = new YourGrid(nadgir, isPlayerOne);
        return null;
 
       }
@@ -193,6 +197,7 @@ public class SetupShipsGui extends JFrame {
     }// end of if
     
     else {
+    	
      // show dialog saying user is an dumb
      JOptionPane.showInternalMessageDialog(SetupShipsGui.this, "You need at least 14 ships!", 
        "Come on", 2, null);
@@ -223,7 +228,9 @@ public class SetupShipsGui extends JFrame {
  
  
  
- private void setBlocks(int i, int x, int blocks) {
+
+
+private void setBlocks(int i, int x, int blocks) {
    
      int newi;   
      int newx;
@@ -276,7 +283,15 @@ public class SetupShipsGui extends JFrame {
   
   System.out.println("Params: " + sendShips);
   
-  String url = "http://9ff96ab3.ngrok.io/user1_ships";
+  // figger out which url to post two
+  String floder = null;
+  if (isPlayerOne)
+	  floder = "/user1_ships";
+	 
+  else
+	  floder = "/user2_ships";
+  
+  String url = "http://localhost:3000" + floder;
   URL obj = new URL(url);
   HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 

@@ -28,7 +28,7 @@ var userTwoShips;
 app.post('/user1_ships', function(req, res) {
 
     res.send('Hello from the ships of planet earth');
-    console.log("Got ships");
+    console.log("Got ships from user 1");
 
     // retrieve the datum from the post request
     req.on('data', function(chunk) {
@@ -39,7 +39,7 @@ app.post('/user1_ships', function(req, res) {
       var shipStr = chunk.toString();
       userOneShips = shipStr.split(",");
       
-      console.log("Ships left " + userOneShips.length);
+      console.log("Ships left for User 1: " + userOneShips.length);
       
       for (var i = 0; i < userOneShips.length; i++) {
         console.log(userOneShips[i]);
@@ -55,6 +55,36 @@ app.post('/user1_ships', function(req, res) {
 //    res.send("Got ships bro");
 });
 
+// user 2 sends ships
+app.post('/user2_ships', function(req, res) {
+
+    res.send('Hello from the ships of planet earth');
+    console.log("Got ships from user 2");
+
+    // retrieve the datum from the post request
+    req.on('data', function(chunk) {
+
+      console.log("Received some $hips:");
+      console.log(chunk.toString());
+      
+      var shipStr = chunk.toString();
+      userTwoShips = shipStr.split(",");
+      
+      console.log("Ships left for User 2: " + userTwoShips.length);
+      
+      for (var i = 0; i < userTwoShips.length; i++) {
+        console.log(userTwoShips[i]);
+      }
+
+    });
+
+    // console.log(req.url);
+    // console.log(req.params);
+    // console.log(req.useragent);
+
+    // console.log(watisurproject);
+//    res.send("Got ships bro");
+});
 
 // user 1 sends the attacks they want
 // @TODO Change this to attack userTwoShips
@@ -77,10 +107,11 @@ app.post('/attackOnTitan1', function(req, res) {
           
           // ITS A HIT
           if (sentAttack == userOneShips[i]) {
-            console.log("HIT!")
+            
             hitOrMiss = true;
             
             sendResponse = "HIT!";
+            // console.log(sendResponse);
 
             // remove that ship coordinate from the array
             // TODO Remove from USERTWOARRAY!!!
@@ -98,15 +129,17 @@ app.post('/attackOnTitan1', function(req, res) {
 
           // NO HIT
           else {
-            // do nothing
+            // sendResponse = "MISS!";
+            // console.log(sendResponse);
           }
 
-        }
+        } // end of for loop checking for hit or miss
 
-    });
-
-  
+      console.log(sendResponse);
       res.send(sendResponse);
+
+    }); // end of req.on(data)
+
 
 });
 

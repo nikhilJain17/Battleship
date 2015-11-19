@@ -17,6 +17,8 @@ public class LaunchGameGui extends JFrame {
 	JRadioButton playerOne;
 	JRadioButton playerTwo;
 	
+	boolean isPlayerOne;
+	
 	// constructor
 	public LaunchGameGui() {
 		
@@ -47,7 +49,14 @@ public class LaunchGameGui extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				if (playerOne.isSelected())
+					isPlayerOne = true;
+				
+				else
+					isPlayerOne = false;
+				
 				launchSetupShipsGui();
+				deleteMe();
 				
 			}
 			
@@ -86,9 +95,14 @@ public class LaunchGameGui extends JFrame {
 	
 	}
 	
+	// ingenius delete me function
+	private void deleteMe() {
+		this.setVisible(false);
+	}
+	
 	// launch SetupShipsGui
 	private void launchSetupShipsGui() {
-		SetupShipsGui gui = new SetupShipsGui();
+		SetupShipsGui gui = new SetupShipsGui(isPlayerOne);
 	}
 
 	

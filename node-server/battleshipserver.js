@@ -91,7 +91,65 @@ app.post('/user2_ships', function(req, res) {
 app.post('/attackOnTitan1', function(req, res) {
 
     // res.send('Got some attacks from user 1');
-    console.log('got attacks from u$3r 1');
+    console.log('got attacks FR0M u$3r 1');
+
+    var sendResponse = "MISS";
+
+    // retrieve the datum
+    req.on('data', function(chunk) {
+        console.log(chunk.toString());
+
+        var sentAttack = chunk.toString();
+
+        var hitOrMiss = false;
+        // check if there was a hit
+        for (var i = 0; i < userTwoShips.length; i++) {
+          
+          // ITS A HIT
+          if (sentAttack == userTwoShips[i]) {
+            
+            hitOrMiss = true;
+            
+            sendResponse = "HIT!";
+            // console.log(sendResponse);
+
+            // remove that ship coordinate from the array
+            // TODO Remove from USERTWOARRAY!!!
+            var hitShip = userTwoShips.splice(i, 1);
+            console.log("removed this cord from user 2: " + hitShip);
+
+            // display what ships are left
+            console.log("Cords left " + userTwoShips.length);
+      
+            for (var i = 0; i < userTwoShips.length; i++) {
+              console.log(userTwoShips[i]);
+            }
+
+          } // end of hit
+
+          // NO HIT
+          else {
+            // sendResponse = "MISS!";
+            // console.log(sendResponse);
+          }
+
+        } // end of for loop checking for hit or miss
+
+      console.log(sendResponse);
+      res.send(sendResponse);
+
+    }); // end of req.on(data)
+
+
+});
+
+
+
+// Get attacks FROM user 2
+app.post('/attackOnTitan2', function(req, res) {
+
+    // res.send('Got some attacks from user 1');
+    console.log('got attacks FROM u$3r TWO');
 
     var sendResponse = "MISS";
 
@@ -116,7 +174,7 @@ app.post('/attackOnTitan1', function(req, res) {
             // remove that ship coordinate from the array
             // TODO Remove from USERTWOARRAY!!!
             var hitShip = userOneShips.splice(i, 1);
-            console.log("removed this cord from user 2: " + hitShip);
+            console.log("removed this cord from user 1's ships: " + hitShip);
 
             // display what ships are left
             console.log("Cords left " + userOneShips.length);
@@ -142,6 +200,7 @@ app.post('/attackOnTitan1', function(req, res) {
 
 
 });
+
 
 
 // start the server

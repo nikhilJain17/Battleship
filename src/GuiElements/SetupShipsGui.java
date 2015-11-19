@@ -22,6 +22,8 @@ import javax.swing.*;
 
 public class SetupShipsGui extends JFrame {
  
+	// do not read
+	int[][] nadgir = new int[14][2];
  
  JButton[][] setShips; // array to hold where you want to place the ships
  int shipSize;
@@ -161,7 +163,7 @@ public class SetupShipsGui extends JFrame {
       @Override
       protected Void doInBackground() throws Exception {
        
-       YourGrid gui = new YourGrid();
+       YourGrid gui = new YourGrid(nadgir);
        return null;
 
       }
@@ -291,11 +293,22 @@ public class SetupShipsGui extends JFrame {
   
   // check which ships are selected
   // send the data as well
+  
+  int nadgircoord1 = 0;
+ 	int nadgircoord2 = 0;
+ 	
     for (int i = 0; i < 10; i++) {
      
     for (int x = 0; x < 10; x++){
      if (setShips[i][x].getText().contains("SET")) {
       
+// thanks for letting me know
+ 		nadgir[nadgircoord1][nadgircoord2] = i;
+ 		nadgircoord2++;
+ 		nadgir[nadgircoord1][nadgircoord2] = x;
+ 		nadgircoord2 = 0;
+ 		nadgircoord1++;
+    	 
       // append to the params to be passed
       sendShips += ("," + i + " " + x);
       

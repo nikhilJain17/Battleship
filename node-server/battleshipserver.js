@@ -38,9 +38,10 @@ app.post('/user1_ships', function(req, res) {
       
       var shipStr = chunk.toString();
       userOneShips = shipStr.split(",");
-
+      
+      console.log("Ships left " + userOneShips.length);
+      
       for (var i = 0; i < userOneShips.length; i++) {
-        console.log("Ships left " + userOneShips.length);
         console.log(userOneShips[i]);
       }
 
@@ -56,10 +57,13 @@ app.post('/user1_ships', function(req, res) {
 
 
 // user 1 sends the attacks they want
+// @TODO Change this to attack userTwoShips
 app.post('/attackOnTitan1', function(req, res) {
 
-    res.send('Got some attacks from user 1');
+    // res.send('Got some attacks from user 1');
     console.log('got attacks from u$3r 1');
+
+    var sendResponse = "MISS";
 
     // retrieve the datum
     req.on('data', function(chunk) {
@@ -70,15 +74,39 @@ app.post('/attackOnTitan1', function(req, res) {
         var hitOrMiss = false;
         // check if there was a hit
         for (var i = 0; i < userOneShips.length; i++) {
+          
+          // ITS A HIT
           if (sentAttack == userOneShips[i]) {
             console.log("HIT!")
             hitOrMiss = true;
-          }
-        }
+            
+            sendResponse = "HIT!";
 
+            // remove that ship coordinate from the array
+            // TODO Remove from USERTWOARRAY!!!
+            var hitShip = userOneShips.splice(i, 1);
+            console.log("removed this cord from user 2: " + hitShip);
+
+            // display what ships are left
+            console.log("Cords left " + userOneShips.length);
+      
+            for (var i = 0; i < userOneShips.length; i++) {
+              console.log(userOneShips[i]);
+            }
+
+          } // end of hit
+
+          // NO HIT
+          else {
+            // do nothing
+          }
+
+        }
 
     });
 
+  
+      res.send(sendResponse);
 
 });
 

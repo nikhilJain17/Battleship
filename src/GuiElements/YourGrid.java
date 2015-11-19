@@ -26,10 +26,10 @@ public class YourGrid extends JFrame {
 	// for sending attacks u mormon
 	JToggleButton[][] attackButtonArray = new JToggleButton[10][10];
 	
+	JTextArea yourAttackStatus; // If your attack was a hit or miss
 	
 	JButton confirmAttack; // to send out the attack fo sho
 	
-	JTextArea previousAttacks; // holds previous attacks that you sent
 	
 	// so far this variable has proved to be as useful as [redacted] 
 	int turnNumber = 1;
@@ -38,9 +38,18 @@ public class YourGrid extends JFrame {
 	
 	
 	// Construction tools
-	public YourGrid() {
+	public YourGrid(int[][] nadgir) {
+		
+		// ishan was here
+		for (int z = 0; z < 14; z++) {
+		    for (int y = 0; y < 2; y++) {
+		    	System.out.println("nadgir values" + nadgir[z][y]);
+		   }
+		}
 		
 		System.out.println("we are here in yourgrid");
+		
+		yourAttackStatus = new JTextArea("");
 		
 		// actionpanel stuff
 		actionPanel = new JPanel();
@@ -61,11 +70,6 @@ public class YourGrid extends JFrame {
 		battlePanel.setVisible(true);
 		battlePanel.setBackground(Color.BLUE);
 		
-		battlePanel.add(new JLabel("Your ships")); // add a label explaining what it is
-		for (int i = 0; i < 10; i++)
-			battlePanel.add(new JLabel(""));
-		
-//		shipArray = new JButton[10][10];
 		shipArray = new JButton[100];
 		
 		for (int i = 0; i < 100; i++) {
@@ -86,11 +90,6 @@ public class YourGrid extends JFrame {
 		opponentPanel.setVisible(true);
 		opponentPanel.setBackground(Color.red);
 
-		opponentPanel.add(new JLabel("Opponent Ships")); // add a label explaining what it is
-		// Padding lol
-		for (int i = 0; i < 9; i++)
-			opponentPanel.add(new JLabel("")); 
-		
 
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -178,8 +177,8 @@ public class YourGrid extends JFrame {
 		}); // end of actionlistener 
 		
 		// TODO ADD A JSCROLLPANE
-		previousAttacks = new JTextArea("Sample text", 20, 1);
-		previousAttacks.setEditable(false);
+//		previousAttacks = new JTextArea("Sample text", 20, 1);
+//		previousAttacks.setEditable(false);
 //		previousAttacks.
 		
 		
@@ -193,7 +192,7 @@ public class YourGrid extends JFrame {
 		this.add(battlePanel, BorderLayout.WEST);
 		this.add(opponentPanel, BorderLayout.EAST);
 		this.add(confirmAttack, BorderLayout.NORTH);
-		this.add(previousAttacks, BorderLayout.CENTER);
+		this.add(yourAttackStatus, BorderLayout.CENTER);
 //		this.setBackground(Color.CYAN);
 //		this.add(battlePanel);
 //		this.add(opponentPanel);
@@ -203,6 +202,7 @@ public class YourGrid extends JFrame {
 		
 //		this.add();
 	} // end of constructor
+	
 	
 	
 	
@@ -245,6 +245,13 @@ public class YourGrid extends JFrame {
 		
 		//print result
 		System.out.println(response.toString());
+		
+		// check if there was a hit
+		if (response.toString().contains("HIT!"))
+			yourAttackStatus.setText("Your attack was a hit!");
+		
+		else
+			yourAttackStatus.setText("Your attack was a miss ¯\\_(ツ)_/¯");
 
 		
 	}

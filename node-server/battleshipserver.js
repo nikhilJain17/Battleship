@@ -267,6 +267,26 @@ app.post('/attackOnTitan2', function(req, res) {
 
 
 
+
+
+// return some cheeky ships to the person place or thing
+app.get('/getUser1Ships', function(req, res) {
+
+  console.log("User 1 wants some ships");
+  res.send(userOneShips);
+
+});
+
+// return some cheeky ships to the person place or thing
+app.get('/getUser2Ships', function(req, res) {
+
+  console.log("User 2 wants some ships");
+  res.send(userTwoShips);
+
+});
+
+
+
 // start the server
 // note: it is portforwarded
 http.listen(3000, function () {

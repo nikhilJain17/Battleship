@@ -10,7 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,7 +23,7 @@ public class YourGrid extends JFrame {
 	
 	JPanel actionPanel; // holds buttons, menu, etc
 	
-	JButton[] shipArray;	// array for YOUR alwhe;iwahtships (bruh)
+	JButton[][] shipArray;	// array for YOUR alwhe;iwahtships (bruh)
 	GridLayout battleGrid; // layout for battleFrame
 	
 	JPanel battlePanel; // frame to hold your battleships
@@ -38,6 +40,9 @@ public class YourGrid extends JFrame {
 	// so far this variable has proved to be as useful as [redacted] 
 	int turnNumber = 1;
 	
+	
+	// Cheeky shoutout
+	ArrayList<Integer> newNadgirValues;
 	
 	
 	
@@ -76,13 +81,25 @@ public class YourGrid extends JFrame {
 		battlePanel.setVisible(true);
 		battlePanel.setBackground(Color.BLUE);
 		
-		shipArray = new JButton[100];
+		shipArray = new JButton[10][10];
 		
-		for (int i = 0; i < 100; i++) {
-				
-			shipArray[i] = new JButton("X");		
-			battlePanel.add(shipArray[i]);
+		for (int ab = 0; ab < 10; ab++) {		
+			for (int ac = 0; ac < 10; ac++) {		
+			// rows columns			
+			shipArray[ab][ac] = new JButton("=(");
+			
+			battlePanel.add(shipArray[ab][ac]);		
+			}
 		
+		}
+		int ag = 0;
+		int af = 0;
+		for (int l = 0; l < 14; l++) {
+		    for (int q = 0; q < 2; q++) {
+		    	if (q==0){ag =nadgir[l][q];}
+		    	if (q==1){af = nadgir[l][q];}
+		   }
+		    shipArray[ag][af].setText("<html><FONT COLOR=ORANGE><b>=)</b></html>");
 		}
 		
 		
@@ -177,6 +194,14 @@ public class YourGrid extends JFrame {
 				catch (IOException e1) {
 					e1.printStackTrace();
 				} // end of tryCatch
+			
+				// GET YER SHIPS
+				try {
+					getYourShips();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			} // end of actionPerformed
 			
@@ -212,11 +237,67 @@ public class YourGrid extends JFrame {
 	
 	
 	// get YOUR ships
-//	private void getYourShips() {
-//		
-//		String floder = ""
-//		
-//	}
+	private void getYourShips() throws Exception {
+		
+		String floder = "";
+		
+		if (isPlayerOne)
+			floder = "/getUser1Ships";
+		else
+			floder = "/getUser2Ships";
+		
+		// the sweet url to send the bitter attacks
+		String url = "http://9ff96ab3.ngrok.io" + floder;
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+		//add reuqest header
+		con.setRequestMethod("GET");
+		con.setRequestProperty("User-Agent", "User 1");
+		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+		
+		int responseCode = con.getResponseCode();
+		System.out.println("\nSending 'GET' request to URL : " + url);
+		System.out.println("Response Code : " + responseCode);
+
+		System.out.println("Its LISTENEING! GETTING SOME SHIPS");
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+		
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+
+		System.out.println("Your ships in the raw: " + response);
+		
+		String[] parts = response.toString().split(",");
+		// the first one is garbage
+//		int[][] newNadgirValues = new int[parts.length-1][2];
+		
+		for (int i = 0; i < 10; i++)
+			for (int j = 0; j < 10; j++)
+				shipArray[i][j].setText("=(");
+		
+		for (int i = 1; i < parts.length; i++) {
+			
+			String indiv = parts[i];
+			int firstCord = Character.getNumericValue(indiv.charAt(1));
+			int secondCord = Character.getNumericValue(indiv.charAt(3));
+			
+//			newNadgirValues[i-1][0] = firstCord;
+//			newNadgirValues[i-1][1] = secondCord;
+			
+			System.out.println("First Cord: " + firstCord + " Second Cord: " + secondCord);
+		
+			shipArray[firstCord][secondCord].setText("<html><FONT COLOR=ORANGE><b>=)</b></html>");
+		}
+		
+		
+		
+	}
 	
 	
 	// send some attacks to the serber

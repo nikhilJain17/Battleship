@@ -29,13 +29,17 @@ public class LaunchGameGui extends JFrame {
 		collin = new ButtonGroup();
 		
 //		mainFrame = new JFrame();
-		this.setTitle("Battleship!");
-		this.setSize(500, 500);
-		this.setLocation(400, 150);
+		this.setTitle("Battleship® created by Nikhil Jain, Ishan Vachhani, Rohan Shah. No Patent Intended.");
+		this.setSize(600, 500);
+		this.setLocation(420, 150); // @yy lm@0
 		this.setLayout(new GridLayout(3,2));
+		
+		// a bit of cheeky design
+		Color myColor = new Color(0, 255, 153);
+		this.setBackground(myColor);
 //		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS)); // grid layout
 		
-		JLabel intro = new JLabel("<html><font size=\"6\">Welcome to Battleship!</font></html>");
+		JLabel intro = new JLabel("<html><font size=\"6\" color=\"blue\">Battleship ®</font></html>");
 		intro.setSize(500, 200);
 //		intro.setLocation(70, 20);
 //		intro.setHorizontalAlignment(250);

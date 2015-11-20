@@ -6,11 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class YourGrid extends JFrame {
@@ -209,6 +211,12 @@ public class YourGrid extends JFrame {
 	
 	
 	
+	// get YOUR ships
+//	private void getYourShips() {
+//		
+//		String floder = ""
+//		
+//	}
 	
 	
 	// send some attacks to the serber
@@ -216,8 +224,16 @@ public class YourGrid extends JFrame {
 		
 		System.out.println(whichVon);
 		
+		// to determine whom player are you
+		String floder = null;
+		if (isPlayerOne)
+			floder = "attackOnTitan1";
+		else
+			floder = "attackOnTitan2";
+		
+		
 		// the sweet url to send the bitter attacks
-		String url = "http://localhost:3000/attackOnTitan1";
+		String url = "http://9ff96ab3.ngrok.io/" + floder;
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -248,17 +264,54 @@ public class YourGrid extends JFrame {
 		in.close();
 		
 		//print result
-		System.out.println(response.toString());
+		System.out.println("This is the server response to the attack:\n" + response.toString());
+		System.out.println("end server response________________");
 		
 		// check if there was a hit
 		if (response.toString().contains("HIT!"))
 			yourAttackStatus.setText("Your attack was a hit!");
 		
-		else
+		else if (response.toString().contains("MISS"))
 			yourAttackStatus.setText("Your attack was a miss ¯\\_(ツ)_/¯");
+		
+		else if (response.toString().contains("WINNER")) {
+			// find out whom is the winner
+			
+			// loser.png
+//			ImageIcon loserIcon = new ImageIcon(YourGrid.class.getResource("loser.png"));
+//			ImageIcon icon = new ImageIcon(RohanShahIsAHersheyGirl.class.getResource("loser.png"));
+
+			
+			// LOSER LOSER LOSER LOSER
+			if (response.toString().contains("WINNER Player 2") && isPlayerOne) {
+				yourAttackStatus.setText("LOSER™ LOSER™ LOSER™ LOSER™");
+				//JOptionPane.showMessageDialog(this, "LOSER™ LOSER™ LOSER™ LOSER™", "Game Over", JOptionPane.WARNING_MESSAGE, image);
+				JOptionPane.showMessageDialog(this, "LOSER™ LOSER™ LOSER™ LOSER™", "Game Over", -1);
+			}
+				
+			// winner winner winner winner
+			else if (response.toString().contains("WINNER Player 1") && isPlayerOne) {
+				yourAttackStatus.setText("DING DING DING YOU WIN!");
+				JOptionPane.showMessageDialog(this, "DING DING DING YOU WIN!", "Game Over", JOptionPane.WARNING_MESSAGE);
+			}
+			
+			// loser loser loser loser
+			else if (response.toString().contains("WINNER Player 1") && !isPlayerOne) {
+				yourAttackStatus.setText("LOSER™ LOSER™ LOSER™ LOSER™");
+				JOptionPane.showMessageDialog(this, "LOSER™ LOSER™ LOSER™ LOSER™", "Game Over", -1);
+			}
+			
+			// winner winner winner winner
+			else if (response.toString().contains("WINNER Player 2") && !isPlayerOne) {
+				yourAttackStatus.setText("DING DING DING YOU WIN!");
+				JOptionPane.showMessageDialog(this, "DING DING DING YOU WIN!", "Game Over", JOptionPane.WARNING_MESSAGE);	
+			}
+			
+		} // end of WINNER else statement
 
 		
-	}
+	} // end of sendAttacks()
 	
 	
-}
+} // end of class
+// i believe the class has started

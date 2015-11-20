@@ -291,7 +291,7 @@ private void setBlocks(int i, int x, int blocks) {
   else
 	  floder = "/user2_ships";
   
-  String url = "http://localhost:3000" + floder;
+  String url = "http://9ff96ab3.ngrok.io" + floder;
   URL obj = new URL(url);
   HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 

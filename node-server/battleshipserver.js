@@ -86,6 +86,9 @@ app.post('/user2_ships', function(req, res) {
 //    res.send("Got ships bro");
 });
 
+var playerOneWon = false;
+var playerTwoWon = false;
+
 // user 1 sends the attacks they want
 // @TODO Change this to attack userTwoShips
 app.post('/attackOnTitan1', function(req, res) {
@@ -93,11 +96,33 @@ app.post('/attackOnTitan1', function(req, res) {
     // res.send('Got some attacks from user 1');
     console.log('got attacks FR0M u$3r 1');
 
-    var sendResponse = "MISS";
+    if (!playerOneWon && !playerTwoWon) {
+      var sendResponse = "MISS";
+    }
+    else if (playerOneWon && !playerTwoWon) {
+      var sendResponse = "WINNER Player 1";
+    }
+    else if (!playerOneWon && playerTwoWon) {
+      var sendResponse = "WINNER Player 2";
+    }
 
     // retrieve the datum
     req.on('data', function(chunk) {
         console.log(chunk.toString());
+
+         // is the game over?
+        if (playerOneWon) {
+          sendResponse = "WINNER Player 1";
+          console.log("Player 1 won already");
+        }
+
+        else if (playerTwoWon) {
+          sendResponse = "WINNER Player 2";
+          console.log("Player 2 won already");
+        }
+
+        // game is not over
+        else {
 
         var sentAttack = chunk.toString();
 
@@ -121,6 +146,13 @@ app.post('/attackOnTitan1', function(req, res) {
             // display what ships are left
             console.log("Cords left " + userTwoShips.length);
       
+            if ((userTwoShips.length - 1) == 0) {
+              // DING DING DING WE HAVE A WINNER
+              console.log("DING DING DING WE HAVE A WINNER: USER 1");
+              sendResponse = "WINNER Player 1";
+              playerOneWon = true;
+            }
+
             for (var i = 0; i < userTwoShips.length; i++) {
               console.log(userTwoShips[i]);
             }
@@ -134,6 +166,8 @@ app.post('/attackOnTitan1', function(req, res) {
           }
 
         } // end of for loop checking for hit or miss
+
+      } // end of else (game is not over)
 
       console.log(sendResponse);
       res.send(sendResponse);
@@ -151,11 +185,31 @@ app.post('/attackOnTitan2', function(req, res) {
     // res.send('Got some attacks from user 1');
     console.log('got attacks FROM u$3r TWO');
 
-    var sendResponse = "MISS";
+    if (!playerOneWon && !playerTwoWon) {
+      var sendResponse = "MISS";
+    }
+    else if (playerOneWon && !playerTwoWon) {
+      var sendResponse = "WINNER Player 1";
+    }
+    else if (!playerOneWon && playerTwoWon) {
+      var sendResponse = "WINNER Player 2";
+    }
 
     // retrieve the datum
     req.on('data', function(chunk) {
         console.log(chunk.toString());
+
+        // is the game over?
+        if (playerOneWon) {
+          sendResponse = "WINNER Player 1";
+        }
+
+        else if (playerTwoWon) {
+          sendResponse = "WINNER Player 2";
+        }
+
+        // game is not over
+        else {
 
         var sentAttack = chunk.toString();
 
@@ -178,6 +232,14 @@ app.post('/attackOnTitan2', function(req, res) {
 
             // display what ships are left
             console.log("Cords left " + userOneShips.length);
+
+            // are there zero ships left?
+            if (userOneShips == 0) {
+              // DING DING DING WE HAVE A WINNER
+              console.log("DING DING DING WE HAVE A WINNER: USER 2");
+              sendResponse = "WINNER Player 2";
+              playerTwoWon = true;
+            }
       
             for (var i = 0; i < userOneShips.length; i++) {
               console.log(userOneShips[i]);
@@ -192,6 +254,8 @@ app.post('/attackOnTitan2', function(req, res) {
           }
 
         } // end of for loop checking for hit or miss
+
+      } // end of else (game is not over)
 
       console.log(sendResponse);
       res.send(sendResponse);

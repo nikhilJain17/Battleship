@@ -61,6 +61,7 @@ public class YourGrid extends JFrame {
 		System.out.println("we are here in yourgrid");
 		
 		yourAttackStatus = new JTextArea("");
+		yourAttackStatus.setEditable(false);
 		
 		// actionpanel stuff
 		actionPanel = new JPanel();
@@ -86,7 +87,7 @@ public class YourGrid extends JFrame {
 		for (int ab = 0; ab < 10; ab++) {		
 			for (int ac = 0; ac < 10; ac++) {		
 			// rows columns			
-			shipArray[ab][ac] = new JButton("=(");
+			shipArray[ab][ac] = new JButton("=(®");
 			
 			battlePanel.add(shipArray[ab][ac]);		
 			}
@@ -121,6 +122,7 @@ public class YourGrid extends JFrame {
 			attackButtonArray[i][j] = new JToggleButton("O");
 			opponentPanel.add(attackButtonArray[i][j]);
 			
+			
 			attackButtonArray[i][j].addActionListener(new ActionListener() {
 
 
@@ -148,6 +150,10 @@ public class YourGrid extends JFrame {
 									
 						}
 					
+//					JToggleButton rohanshah = (JToggleButton) e.getSource();
+//					rohanshah.setBackground(Color.GREEN);
+//					rohanshah.setOpaque(true);
+//					
 //					String sampleText = e.getSource().toString();
 //					
 //					// send attack to the server
@@ -176,18 +182,26 @@ public class YourGrid extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				int x = 0,y = 0;
+				
 				// send da attack
 				String whichVon = "";
 				
 				for (int i = 0; i < 10; i++)
 					for (int j = 0; j < 10; j++) {
 						
-						if (attackButtonArray[i][j].getText().equals("BOOM!")) 
+						if (attackButtonArray[i][j].getText().equals("BOOM!")) {
 							whichVon = i + " " + j;
-						
+							x = i;
+							y = j;
+						}
 						
 					} // end of inner for
 			
+				// make that button a cheeky shade of red
+				shipArray[x][y].setBackground(Color.BLACK);
+				shipArray[x][y].setOpaque(true);
+				
 				try {
 					sendAttacks(whichVon);
 				} 
@@ -279,7 +293,7 @@ public class YourGrid extends JFrame {
 		
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++)
-				shipArray[i][j].setText("=(");
+				shipArray[i][j].setText("=(®");
 		
 		for (int i = 1; i < parts.length; i++) {
 			
@@ -353,7 +367,7 @@ public class YourGrid extends JFrame {
 			yourAttackStatus.setText("Your attack was a hit!");
 		
 		else if (response.toString().contains("MISS"))
-			yourAttackStatus.setText("Your attack was a miss ¯\\_(ツ)_/¯");
+			yourAttackStatus.setText("Your attack was a miss ¯\\_(ツ)_/¯©");
 		
 		else if (response.toString().contains("WINNER")) {
 			// find out whom is the winner
@@ -366,7 +380,7 @@ public class YourGrid extends JFrame {
 			// LOSER LOSER LOSER LOSER
 			if (response.toString().contains("WINNER Player 2") && isPlayerOne) {
 				yourAttackStatus.setText("LOSER™ LOSER™ LOSER™ LOSER™");
-				//JOptionPane.showMessageDialog(this, "LOSER™ LOSER™ LOSER™ LOSER™", "Game Over", JOptionPane.WARNING_MESSAGE, image);
+				//JOptionPane.showMessageDialog(this, "LOSER® LOSER® LOSER® LOSER®", "Game Over", JOptionPane.WARNING_MESSAGE, image);
 				JOptionPane.showMessageDialog(this, "LOSER™ LOSER™ LOSER™ LOSER™", "Game Over", -1);
 			}
 				
@@ -384,8 +398,8 @@ public class YourGrid extends JFrame {
 			
 			// winner winner winner winner
 			else if (response.toString().contains("WINNER Player 2") && !isPlayerOne) {
-				yourAttackStatus.setText("DING DING DING YOU WIN!");
-				JOptionPane.showMessageDialog(this, "DING DING DING YOU WIN!", "Game Over", JOptionPane.WARNING_MESSAGE);	
+				yourAttackStatus.setText("DING DING DING YOU WIN®!");
+				JOptionPane.showMessageDialog(this, "DING DING DING YOU WIN®!", "Game Over", JOptionPane.WARNING_MESSAGE);	
 			}
 			
 		} // end of WINNER else statement

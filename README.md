@@ -1,2 +1,2 @@
 # Battleship
-A recreation of Battleship using Unreal Engine 4 and Socket.io
+A recreation of Battleship using Java Swing for the client-side game and node.js for the server-side code. Play with your friends online!
